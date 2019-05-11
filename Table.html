@@ -1,0 +1,232 @@
+<!doctype html>
+<html><head>
+<title>Eazy-Time</title>
+<script type="text/javascript">
+function submitTryit()
+{
+var t=document.getElementById("TestCode").value;
+t=t.replace(/=/gi,"w3equalsign");
+t=t.replace(/script/gi,"w3scrw3ipttag");
+
+document.getElementById("code").value=t;
+
+document.getElementById("tryitform").action="v.asp";
+
+validateForm();
+
+document.getElementById("tryitform").submit();
+}
+
+function validateForm()
+{
+var code=document.getElementById("code").value;
+if (code.length>5000)
+	{
+	document.getElementById("code").value="<h1>Error</h1>";
+	}
+}
+function copyText()
+{
+document.getElementById("field2").value=document.getElementById("field1").value;
+}
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Custom Theme files -->
+<link href="css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
+<link href="css/style.css" type="text/css" rel="stylesheet" media="all">   
+<link href="css/font-awesome.css" rel="stylesheet"> <!-- font-awesome icons -->
+</head>
+
+<body>
+	<div class="top-nav w3-agiletop">
+			<div class="container">
+				<div class="navbar-header w3llogo">
+				  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<h1><a href="index.html"> Eazy-Time</a></h1>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<div class="w3menu navbar-left">
+					  <ul class="nav navbar">
+						  <li><a href="index.html" class="active">Log in </a></li>
+						  <li><a href="Professor.html">Professor</a></li>
+						  <li><a href="Student.html">Student</a></li>
+						  <li>
+<ul class="dropdown-menu"> 
+				  <li><a href="icons.html">Web Icons</a></li>
+									<li><a href="codes.html">Short Codes</a></li>
+							</ul>
+						  </li>
+						  <li><a href="contact.html">Reservation</a></li>
+						</ul>
+					</div>
+					<div class="w3ls-bnr-icons social-icon navbar-right">
+					  <a href="#" class="social-button twitter"></a>
+					  <a href="#" class="social-button facebook"></a> 
+					  <a href="#" class="social-button google"></a> 
+					  <a href="#" class="social-button dribbble"></a> 
+					</div> 
+					<div class="clearfix"> </div>  
+				</div>
+			</div>	
+</div>	
+	<div class="card-header d-flex align-items-center"><div align="center">
+	  <h3 class="h4">&nbsp;</h3>
+	  <h3 class="h4">Time Table</h3>
+	  <p>&nbsp;</p>
+	</div>
+Field1: <input type="text" id="field1" value="Hello World!"><br>
+<!--Field2: <input type="text" id="field2"><br><br>-->
+<button onclick="copyText()">copy </button>
+<div align="center">
+                      <table width="500" border="1" cellpadding="10">
+                        <tbody>
+                          <tr>
+                            <th scope="col">&nbsp;</th>
+                            <th scope="col">&nbsp;</th>
+                            <th scope="col">&nbsp;</th>
+                            <th scope="col">&nbsp;</th>
+                            <th scope="col">&nbsp;</th>
+                            <th scope="col">&nbsp;</th>
+                            <th scope="col">&nbsp;</th>
+                            <th scope="col">&nbsp;</th>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                          </tr>
+                        </tbody>
+                      </table>
+		</div>
+		<div align="center">
+		 <li><a href="login.html">
+		   <h2>&nbsp;</h2>
+		   <h2><span>Compare</span></h2>
+		   <p>&nbsp;</p>
+		 </a></li>
+</body>
+</html>

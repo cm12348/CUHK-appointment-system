@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Bootstrap Material Admin by Bootstrapious.com</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="css/fontastic.css">
+    <!-- Google fonts - Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="css/custom.css" type="text/css" />
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="" />
+    <script
+        type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- Custom Theme files -->
+    <link href="css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="all">
+    <link href="css/font-awesome.css" rel="stylesheet"> <!-- font-awesome icons -->
+    <!-- //Custom Theme files -->
+    <!-- js -->
+    <script src="js/jquery-2.2.3.min.js"></script>
+    <!-- //js -->
+    <!-- web-fonts -->
+    <!-- //web-fonts -->
+    <style>
+        .myblock {
+            width: 100%;
+            height: 3ch;
+            background: transparent;
+            border: none
+        }
+
+        .mytd {
+            width: auto;
+            background-color: rgba(172, 255, 47, 0.63);
+        }
+    </style>
+    <script>
+        //state list
+        var statelist = new Array(84);
+        for (var i = 0; i < statelist.length(); i++) {
+            statelist[i] = 0;
+        }
+
+        function bcolor(value) {
+            var a = document.getElementById(value);
+            var str = new String(value);
+            var index = Number(str.slice(1)) - 1;
+            console.log(index);
+            if (statelist[index] == 1) {
+                a.style.backgroundColor = "rgba(172, 255, 47, 0.63)";
+                a.value = 0;
+                statelist[index] = 0;
+            }
+            else {
+                a.style.backgroundColor = "rgba(255, 0, 0, 0.472)";
+                a.value = 1;
+                statelist[index] = 1;
+            }
+        }
+
+        function register2db() {
+            var StuID = document.getElementById('register-userid').value;
+            var StuName = document.getElementById('register-username').value;
+            var StuMail = document.getElementById('register-email').value;
+            var SchoolID = document.getElementById('register-school').value;
+            // var arr = statelist2str(statelist);
+            var arr = JSON.stringify(statelist);
+            var r = confirm("确定录入？");
+            if (!r) return;
+            $.ajax({
+                type: "POST",  //默认值: "GET")。请求方式 ("POST" 或 "GET")， 默认为 "GET"
+                url: "register.php",  //当前页地址。发送请求的地址
+                dataType: "json",
+                traditional: true,
+                data: {
+                    "id": StuID,
+                    "name": StuName,
+                    "email": StuMail,
+                    "school": SchoolID,
+                    "jsonarr": arr
+                },
+                success: function (data) {
+                    alert("You have signed up as " + StuID + " !\nSkip to log in...");
+                },
+                async: true,   //true为异步请求，false为同步请求
+                error: function () {
+                    alert("请求失败");
+                    console.log("请求失败")
+                }
+            });
+
+            window.location("login.html");
+        }
+    </script>
+</head>
+
+<body>
+    <div class="page login-page">
+        <div class="container d-flex align-items-center">
+            <div class="form-holder has-shadow">
+                <div class="row">
+                    <div class="page login-page">
+                        <div class="top-nav w3-agiletop">
+                            <div class="container">
+                                <div class="navbar-header w3llogo">
+                                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                        data-target="#bs-example-navbar-collapse-1">Toggle navigation </button>
+                                    <h1><a href="index.html"> Eazy-Time</a></h1>
+                                </div>
+                                <!-- Collect the nav links, forms, and other content for toggling -->
+
+                                <!-- Logo & Information Panel-->
+                                <div class="col-lg-6"> </div>
+                                <!-- Form Panel    -->
+                                <div class="col-lg-6 bg-white">
+                                    <div align="center">
+                                        <div class="form d-flex align-items-center">
+                                            <div class="content">
+                                                <form class="form-validate">
+                                                    <div class="form-group">
+                                                        <input id="register-username" type="text"
+                                                            name="registerUserName" required
+                                                            data-msg="Please enter your username"
+                                                            class="input-material">
+                                                        <label for="register-username" class="label-material">User
+                                                            Name</label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input id="register-userid" type="text" name="registerUserId"
+                                                            required data-msg="Please enter your id"
+                                                            class="input-material">
+                                                        <label for="register-userid" class="label-material">User
+                                                            ID</label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input id="register-email" type="email" name="registerEmail"
+                                                            required data-msg="Please enter a valid email address"
+                                                            class="input-material">
+                                                        <label for="register-email" class="label-material">Email Address
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input id="register-school" type="text" name="registerSchool"
+                                                            required data-msg="Please enter your school"
+                                                            class="input-material">
+                                                        <label for="register-school"
+                                                            class="label-material">School</label>
+                                                    </div>
+
+                                                    <div class="card-header d-flex align-items-center">
+                                                        <h3 class="h4">Your Time Table</h3>
+                                                    </div>
+                                                    
+                                            </div>
+                                            </form>
+                                                <table align="center" width="100%" border="1" cellpadding="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td id='t0'></td>
+                                                                <td>Monday</td>
+                                                                <td>Tuesday</td>
+                                                                <td>Wednesday</td>
+                                                                <td>Thursday</td>
+                                                                <td>Friday</td>
+                                                                <td>Saturday</td>
+                                                                <td>Sunday</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>8:00</td>
+                                                                <!-- <td><input type='button' style="color:rgba(255, 0, 0, 0.472)"/></td> -->
+                                                                <td id='t1' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t1'></button></td>
+                                                                <td id='t2' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t2'></button></td>
+                                                                <td id='t3' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t3'></button></td>
+                                                                <td id='t4' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t4'></button></td>
+                                                                <td id='t5' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t5'></button></td>
+                                                                <td id='t6' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t6'></button></td>
+                                                                <td id='t7' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t7'></button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>9:00</td>
+                                                                <td id='t8' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t8'></button></td>
+                                                                <td id='t9' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t9'></button></td>
+                                                                <td id='t10' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t10'></button></td>
+                                                                <td id='t11' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t11'></button></td>
+                                                                <td id='t12' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t12'></button></td>
+                                                                <td id='t13' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t13'></button></td>
+                                                                <td id='t14' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t14'></button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>10:00</td>
+                                                                <td id='t15' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t15'></button></td>
+                                                                <td id='t16' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t16'></button></td>
+                                                                <td id='t17' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t17'></button></td>
+                                                                <td id='t18' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t18'></button></td>
+                                                                <td id='t19' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t19'></button></td>
+                                                                <td id='t20' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t20'></button></td>
+                                                                <td id='t21' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t21'></button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>11:00</td>
+                                                                <td id='t22' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t22'></button></td>
+                                                                <td id='t23' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t23'></button></td>
+                                                                <td id='t24' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t24'></button></td>
+                                                                <td id='t25' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t25'></button></td>
+                                                                <td id='t26' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t26'></button></td>
+                                                                <td id='t27' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t27'></button></td>
+                                                                <td id='t28' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t28'></button></td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>12:00</td>
+                                                                <td id='t29' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t29'></button></td>
+                                                                <td id='t30' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t30'></button></td>
+                                                                <td id='t31' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t31'></button></td>
+                                                                <td id='t32' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t32'></button></td>
+                                                                <td id='t33' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t33'></button></td>
+                                                                <td id='t34' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t34'></button></td>
+                                                                <td id='t35' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t35'></button></td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>13:00</td>
+                                                                <td id='t36' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t36'></button></td>
+                                                                <td id='t37' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t37'></button></td>
+                                                                <td id='t38' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t38'></button></td>
+                                                                <td id='t39' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t39'></button></td>
+                                                                <td id='t40' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t40'></button></td>
+                                                                <td id='t41' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t41'></button></td>
+                                                                <td id='t42' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t42'></button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>14:00</td>
+                                                                <td id='t43' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t43'></button></td>
+                                                                <td id='t44' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t44'></button></td>
+                                                                <td id='t45' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t45'></button></td>
+                                                                <td id='t46' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t46'></button></td>
+                                                                <td id='t47' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t47'></button></td>
+                                                                <td id='t48' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t48'></button></td>
+                                                                <td id='t49' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t49'></button></td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>15:00</td>
+                                                                <td id='t50' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t50'></button></td>
+                                                                <td id='t51' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t51'></button></td>
+                                                                <td id='t52' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t52'></button></td>
+                                                                <td id='t53' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t53'></button></td>
+                                                                <td id='t54' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t54'></button></td>
+                                                                <td id='t55' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t55'></button></td>
+                                                                <td id='t56' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t56'></button></td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>16:00</td>
+                                                                <td id='t57' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t57'></button></td>
+                                                                <td id='t58' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t58'></button></td>
+                                                                <td id='t59' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t59'></button></td>
+                                                                <td id='t60' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t60'></button></td>
+                                                                <td id='t61' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t61'></button></td>
+                                                                <td id='t62' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t62'></button></td>
+                                                                <td id='t63' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t63'></button></td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>17:00</td>
+                                                                <td id='t64' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t64'></button></td>
+                                                                <td id='t65' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t65'></button></td>
+                                                                <td id='t66' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t66'></button></td>
+                                                                <td id='t67' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t67'></button></td>
+                                                                <td id='t68' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t68'></button></td>
+                                                                <td id='t69' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t69'></button></td>
+                                                                <td id='t70' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t70'></button></td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>18:00</td>
+                                                                <td id='t71' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t71'></button></td>
+                                                                <td id='t72' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t72'></button></td>
+                                                                <td id='t73' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t73'></button></td>
+                                                                <td id='t74' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t74'></button></td>
+                                                                <td id='t75' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t75'></button></td>
+                                                                <td id='t76' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t76'></button></td>
+                                                                <td id='t77' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t77'></button></td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>19:00</td>
+                                                                <td id='t78' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t78'></button></td>
+                                                                <td id='t79' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t79'></button></td>
+                                                                <td id='t80' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t80'></button></td>
+                                                                <td id='t81' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t81'></button></td>
+                                                                <td id='t82' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t82'></button></td>
+                                                                <td id='t83' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t83'></button></td>
+                                                                <td id='t84' class='mytd' value=0> <button
+                                                                        class='myblock' onclick='bcolor(value)'
+                                                                        value='t84'></button></td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                <div class="card-header d-flex align-items-center">
+                                                    <h3 class="h4">&nbsp;</h3>
+                                                    <div class="form-group">
+                                                        <button id="regidter" type="submit" name="registerSubmit"
+                                                            class="btn btn-primary" onclick="register2db()"><a
+                                                                class="signup">update</a></button><small>Already have an account? </small><a href="login.html"
+                                                                class="signup">Login</a>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="footer"> </div>
+                        </div>
+                    </div>
+                    <!-- JavaScript files-->
+                    <script src="vendor/jquery/jquery.min.js"></script>
+                    <script src="vendor/popper.js/umd/popper.min.js"> </script>
+                    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+                    <script src="vendor/jquery.cookie/jquery.cookie.js"> </script>
+                    <script src="vendor/chart.js/Chart.min.js"></script>
+                    <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
+                    <!-- Main File-->
+                    <script src="js/front.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Contact</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="keywords" content="" />
+  <script
+    type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+  <!-- Custom Theme files -->
+  <link href="css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="all">
+  <link href="css/font-awesome.css" rel="stylesheet"> <!-- font-awesome icons -->
+  <!-- //Custom Theme files -->
+  <!-- js -->
+  <script src="js/jquery-2.2.3.min.js"></script>
+  <!-- //js -->
+  <!-- web-fonts -->
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300i,700" rel="stylesheet">
+  <link
+    href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic'
+    rel='stylesheet' type='text/css'>
+  <!-- //web-fonts -->
+  <style>
+    .mytd {
+      width: 100px;
+      background-color: rgba(172, 255, 47, 0.63);
+    }
+  </style>
+  <script>
+    var prof_statelist = new Array(84);
+    var stu_statelist = new Array(84);
+    var statelist = new Array(84);
+
+    function compare() {
+      var ProfName = document.getElementById('profname').value;
+      var StuID = login_userid;
+
+      if (String(StuID).length != 9) {
+        console.log("输入长度错误");
+        return false;
+      }
+
+      // ProfID = JSON.stringify(ProfID);
+      // StuID = JSON.stringify(StuID);
+
+      console.log("Compare() started.")
+
+      $.ajax({
+        type: "post",
+        url: "compare.php",
+        data: {
+          "data": "我是DATA",
+          "time": new Date().getTime(),
+          "professorname": ProfName,
+          "studentid": StuID
+        },
+        dataType: "json", // 因为PHP返回数据是JSON格式，所以这里类似要用JSON
+        async: true,
+        success: function (data) {
+          if (data.status == 200) { // 状态200返回数据
+            // alert("SQL QUERY:" + data.query);
+            // alert("prof_record:" + data.record_num.prof_record_num);
+            // alert("stu_record:" + data.record_num.stu_record_num);
+            
+            if (data.record_num.prof_record_num != 84) {
+              alert("Wrong professor Name!");
+              exit();
+            } else if (data.record_num.stu_record_num != 84) {
+              alert("Wrong student ID!")
+              exit();
+            }
+            
+            stu_statelist = data.stu_statelist.concat();
+            prof_statelist = data.prof_statelist.concat();
+            // alert("stu：" + stu_statelist + " prof: " + prof_statelist);
+
+            var free_count = 0;
+            for (var i = 0; i < 84; i++) {
+              if (stu_statelist[i] == 1 || prof_statelist[i] == 1) {
+                statelist[i] = 1;
+              } else {
+                statelist[i] = 0;
+                free_count++;
+              }
+            }
+            console.log("free count: " + free_count);
+
+            changecolor("both");
+
+          } else { // 状态不是200返回数据
+            alert("[error]: " + data.error);
+          }
+        },
+        error: function () {
+          alert("请求失败");
+        }
+      });
+      return false;
+    }
+
+    function changecolor(arg) {
+
+      // 数组指针 li
+      var li = new Array(84);
+
+      if (arg == "both") {
+        li = statelist;
+      } else if (arg == "stu") {
+        li = stu_statelist;
+      } else if (arg == "prof") {
+        li = prof_statelist;
+      } else {
+        return;
+      }
+      // statelist.slice(0,0);
+      // statelist = prof_statelist.concat();
+      console.log("changecolor() called.")
+      for (var i = 1; i <= li.length; i++) {
+        var tid = 't';
+        a = document.getElementById(tid.concat(String(i)));
+        if (li[i - 1] == 0) {
+          //green
+          a.style.backgroundColor = "rgba(172, 255, 47, 0.63)";
+          a.value = 0;
+        } else {
+          //red
+          a.style.backgroundColor = "rgba(255, 0, 0, 0.472)";
+          a.value = 1;
+        }
+      }
+    }
+  </script>
+</head>
+
+<body onload="check_login()">
+
+    <script type="text/javascript">
+      var login_state = 0;
+      var login_username = "";
+      var login_userid = "";
+
+      function check_login() {
+        $.ajax({
+          type: "post",
+          url: "check_login.php",
+          data: {
+            "logout":"0"
+          },
+          dataType: "json", // 因为PHP返回数据是JSON格式，所以这里类似要用JSON
+          async: true,
+          success: function (data) {
+            login_state = data.login_state;
+            login_username = data.username;
+            login_userid = data.userid;
+            document.getElementById("stuid").textContent = login_userid;
+            console.log("login state: "+login_state, login_username, login_userid);
+            if (login_state == 1) {
+              document.getElementById("logtip").textContent = "(logged in)";
+              document.getElementById('stuid').value = login_userid;
+            } else {
+              document.getElementById("logtip").textContent = "(log in first)";
+            }
+            },
+          error: function () {
+            // alert("请求失败！")
+            console.log("刷新页面时失败")
+            return false;
+          }
+        });
+      }  
+    </script>
+  <!-- banner -->
+  <div class="agileits-banner w3-agileabout-banner">
+    <!-- navigation -->
+    <div class="top-nav w3-agiletop">
+      <div class="container">
+        <div class="navbar-header w3llogo">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+            data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <h1><a href="index.html"> Easy-Time</a></h1>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <div class="w3menu navbar-left">
+            <ul class="nav navbar">
+              <li><a href="index.html">Log in</a></li>
+              <li><a href="professor.php">Professor</a></li>
+              <li><a href="Student.html">Student</a></li>
+              <li>
+                <ul class="dropdown-menu">
+                  <li><a href="icons.html">Web Icons</a></li>
+                  <li><a href="codes.html">Short Codes</a></li>
+                </ul>
+              </li>
+              <li><a href="contact.html" class="active">Reservation</a></li>
+              <li><br>
+								<button id="logout" class="btn btn-primary" name="logout-submit" onclick="logout()">Log out</button><b
+									id="logtip">(log in first)</b></li>
+            </ul>
+          </div>
+          <div class="clearfix"> </div>
+        </div>
+      </div>
+    </div>
+    <!-- //navigation -->
+    <div class="banner-w3text w3layouts aboutw3l-bnrtext">
+      <h2><span>Reservation</span></h2>
+    </div>
+  </div>
+  <!-- //banner -->
+  <div class="contact w3-agileits" style="text-align:center">
+    <form>
+      <p>Professor Name:<input id="profname" type="text" name="professorname" style="width:20ch" /></p>
+      <br>
+      <p>Student ID:<b id="stuid" type="text" name="studentId" style="width:20ch" ></b></p>
+      <br>
+      <!-- <button type="submit" name="compare" onclick="return compare()"> COMPARE</button> -->
+      <button id="regidter" type="submit" name="registerSubmit" onclick="return compare()"><a
+          class="signup">COMPARE</a></button>
+    </form>
+  </div>
+  <div class="contact-right col-md-12">
+    <div align="center">
+      <form action="#" method="post">
+        <input type="button" value="Show Professor's Schedule" onclick="changecolor('prof')">
+        <input type="button" value="Show Student's Schedule" onclick="changecolor('stu')">
+      </form>
+    </div>
+  </div>
+  <!-- contact -->
+  <div class="contact w3-agileits">
+    <div class="container">
+      <h3 class="agileits-title">RESULT</h3>
+      <div class="contact-w3lsrow">
+        <div align="center">
+          <table width="100%" border="1" cellpadding="10">
+            <tbody>
+              <tr>
+                <td style="width: 100px;"></td>
+                <td class='mytd'>Monday</td>
+                <td class='mytd'>Tuesday</td>
+                <td class='mytd'>Wednesday</td>
+                <td class='mytd'>Thursday</td>
+                <td class='mytd'>Friday</td>
+                <td class='mytd'>Saturday</td>
+                <td class='mytd'>Sunday</td>
+              </tr>
+              <tr>
+                <td>8:00</td>
+                <td id='t1' class='mytd' value=0></td>
+                <td id='t2' class='mytd' value=0></td>
+                <td id='t3' class='mytd' value=0></td>
+                <td id='t4' class='mytd' value=0></td>
+                <td id='t5' class='mytd' value=0></td>
+                <td id='t6' class='mytd' value=0></td>
+                <td id='t7' class='mytd' value=0></td>
+              </tr>
+              <tr>
+                <td>9:00</td>
+                <td id='t8' class='mytd' value=0></td>
+                <td id='t9' class='mytd' value=0></td>
+                <td id='t10' class='mytd' value=0></td>
+                <td id='t11' class='mytd' value=0></td>
+                <td id='t12' class='mytd' value=0></td>
+                <td id='t13' class='mytd' value=0></td>
+                <td id='t14' class='mytd' value=0></td>
+              </tr>
+              <tr>
+                <td>10:00</td>
+                <td id='t15' class='mytd' value=0></td>
+                <td id='t16' class='mytd' value=0></td>
+                <td id='t17' class='mytd' value=0></td>
+                <td id='t18' class='mytd' value=0></td>
+                <td id='t19' class='mytd' value=0></td>
+                <td id='t20' class='mytd' value=0></td>
+                <td id='t21' class='mytd' value=0></td>
+              </tr>
+              <tr>
+                <td>11:00</td>
+                <td id='t22' class='mytd' value=0></td>
+                <td id='t23' class='mytd' value=0></td>
+                <td id='t24' class='mytd' value=0></td>
+                <td id='t25' class='mytd' value=0></td>
+                <td id='t26' class='mytd' value=0></td>
+                <td id='t27' class='mytd' value=0></td>
+                <td id='t28' class='mytd' value=0></td>
+              </tr>
+              <tr>
+                <td>12:00</td>
+                <td id='t29' class='mytd' value=0></td>
+                <td id='t30' class='mytd' value=0></td>
+                <td id='t31' class='mytd' value=0></td>
+                <td id='t32' class='mytd' value=0></td>
+                <td id='t33' class='mytd' value=0></td>
+                <td id='t34' class='mytd' value=0></td>
+                <td id='t35' class='mytd' value=0></td>
+              </tr>
+              <tr>
+                <td>13:00</td>
+                <td id='t36' class='mytd' value=0></td>
+                <td id='t37' class='mytd' value=0></td>
+                <td id='t38' class='mytd' value=0></td>
+                <td id='t39' class='mytd' value=0></td>
+                <td id='t40' class='mytd' value=0></td>
+                <td id='t41' class='mytd' value=0></td>
+                <td id='t42' class='mytd' value=0></td>
+              </tr>
+              <tr>
+                <td>14:00</td>
+                <td id='t43' class='mytd' value=0></td>
+                <td id='t44' class='mytd' value=0></td>
+                <td id='t45' class='mytd' value=0></td>
+                <td id='t46' class='mytd' value=0></td>
+                <td id='t47' class='mytd' value=0></td>
+                <td id='t48' class='mytd' value=0></td>
+                <td id='t49' class='mytd' value=0></td>
+              </tr>
+              <tr>
+                <td>15:00</td>
+                <td id='t50' class='mytd' value=0></td>
+                <td id='t51' class='mytd' value=0></td>
+                <td id='t52' class='mytd' value=0></td>
+                <td id='t53' class='mytd' value=0></td>
+                <td id='t54' class='mytd' value=0></td>
+                <td id='t55' class='mytd' value=0></td>
+                <td id='t56' class='mytd' value=0></td>
+              </tr>
+              <tr>
+                <td>16:00</td>
+                <td id='t57' class='mytd' value=0></td>
+                <td id='t58' class='mytd' value=0></td>
+                <td id='t59' class='mytd' value=0></td>
+                <td id='t60' class='mytd' value=0></td>
+                <td id='t61' class='mytd' value=0></td>
+                <td id='t62' class='mytd' value=0></td>
+                <td id='t63' class='mytd' value=0></td>
+              </tr>
+              <tr>
+                <td>17:00</td>
+                <td id='t64' class='mytd' value=0></td>
+                <td id='t65' class='mytd' value=0></td>
+                <td id='t66' class='mytd' value=0></td>
+                <td id='t67' class='mytd' value=0></td>
+                <td id='t68' class='mytd' value=0></td>
+                <td id='t69' class='mytd' value=0></td>
+                <td id='t70' class='mytd' value=0></td>
+              </tr>
+              <tr>
+                <td>18:00</td>
+                <td id='t71' class='mytd' value=0></td>
+                <td id='t72' class='mytd' value=0></td>
+                <td id='t73' class='mytd' value=0></td>
+                <td id='t74' class='mytd' value=0></td>
+                <td id='t75' class='mytd' value=0></td>
+                <td id='t76' class='mytd' value=0></td>
+                <td id='t77' class='mytd' value=0></td>
+              </tr>
+              <tr>
+                <td>19:00</td>
+                <td id='t78' class='mytd' value=0></td>
+                <td id='t79' class='mytd' value=0></td>
+                <td id='t80' class='mytd' value=0></td>
+                <td id='t81' class='mytd' value=0></td>
+                <td id='t82' class='mytd' value=0></td>
+                <td id='t83' class='mytd' value=0></td>
+                <td id='t84' class='mytd' value=0></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+        <div class="contact-right col-md-12">
+          <div align="center">
+            <form action="#" method="post">
+              <textarea name="Message" placeholder="Message" required=""></textarea>
+              <input type="submit" value="Reserve">
+            </form>
+          </div>
+        </div>
+
+      </div>
+      <!-- address -->
+      <!-- //address -->
+    </div>
+  </div>
+  <!-- //contact -->
+  <!-- footer -->
+  <div class="footer">
+    <div class="container">
+      <div class="footer-row w3l-newsletter">
+        <div class="col-md-6 w3_agile_newsletter_left">
+          <h4>CSC3170 </h4>
+        </div>
+        <div class="clearfix"> </div>
+      </div>
+    </div>
+  </div>
+  <!-- footer -->
+  <!-- start-smooth-scrolling -->
+  <script src="js/SmoothScroll.min.js"></script>
+  <script type="text/javascript" src="js/move-top.js"></script>
+  <script type="text/javascript" src="js/easing.js"></script>
+  <script type="text/javascript">
+    jQuery(document).ready(function ($) {
+      $(".scroll").click(function (event) {
+        event.preventDefault();
+
+        $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
+      });
+    });
+  </script>
+  <!-- //end-smooth-scrolling -->
+  <!-- smooth-scrolling-of-move-up -->
+  <script type="text/javascript">
+    $(document).ready(function () {
+			/*
+			var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear' 
+			};
+			*/
+
+      $().UItoTop({ easingType: 'easeOutQuart' });
+
+    });
+  </script>
+  <!-- //smooth-scrolling-of-move-up -->
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="js/bootstrap.js"></script>
+</body>
+
+</html>

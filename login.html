@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>About</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="keywords" content="" />
+  <script
+    type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+  <!-- Custom Theme files -->
+  <link href="css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="all">
+  <link href="css/font-awesome.css" rel="stylesheet"> <!-- font-awesome icons -->
+  <!-- //Custom Theme files -->
+  <!-- js -->
+  <script src="js/jquery-2.2.3.min.js"></script>
+  <!-- //js -->
+  <!-- web-fonts -->
+  <!-- //web-fonts -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Log in</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="robots" content="all,follow">
+  <!-- Bootstrap CSS-->
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome CSS-->
+  <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+  <!-- Fontastic Custom icon font-->
+  <link rel="stylesheet" href="css/fontastic.css">
+  <!-- Google fonts - Poppins -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+  <!-- theme stylesheet-->
+  <link rel="stylesheet" href="css/style.default.css" id="theme-stylesheet">
+  <!-- Custom stylesheet - for your changes-->
+  <link rel="stylesheet" href="css/custom.css">
+  <!-- Favicon-->
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <!-- Tweaks for older IEs-->
+  <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+</head>
+
+<body onload="check_login()">
+  <script type="text/javascript">
+    function check_login() {
+      $.ajax({
+        type: "post",
+        url: "check_login.php",
+        data: {
+          "logout":"0"
+        },
+        dataType: "json", // 因为PHP返回数据是JSON格式，所以这里类似要用JSON
+        async: true,
+        success: function (data) {
+          login_state = data.login_state;
+          login_username = data.username;
+          login_userid = data.userid;
+          console.log("login state: "+login_state);
+          if (login_state == 1) {
+            document.getElementById("logtip").textContent = "(logged in)";
+          } else {
+            document.getElementById("logtip").textContent = "(log in first)";
+          }
+          },
+        error: function () {
+          // alert("请求失败！")
+          console.log("刷新页面时失败")
+          return false;
+        }
+      });
+    }  
+  </script>
+
+  <script type="text/javascript">
+
+    var login_state = 0;
+    var login_username = "";
+    var login_userid = "";
+
+    function before_login() {
+      
+      var StuName = document.getElementById("login-username").value;
+      var StuID = document.getElementById("login-id").value;
+
+      if (login_state == 1) {
+        //  已登录
+        alert("You have already logeged in! Please log out first.")
+        return false;
+      }
+      if (String(StuID).length != 9) {
+        console.log("输入长度错误");
+        return false;
+      }
+
+      $.ajax({
+        type: "post",
+        url: "login.php",
+        data: {
+          "name": StuName,
+          "id": StuID
+        },
+        dataType: "json", // 因为PHP返回数据是JSON格式，所以这里类似要用JSON
+        async: true,
+        success: function (data) {
+          if (data.status == 200) { // 状态200返回数据
+            // alert("SQL QUERY:" + data.query);
+            if (data.correct == 1) {
+              //正确
+              console.log("log in successfully!");
+              alert("log in successfully!")
+              // window.location.href="ss.php"+"?userid="+StuID;
+              window.location.reload();
+            } else {
+              alert("Please input again!");
+              return false;
+            }
+            
+          } else { // 状态不是200返回数据
+            alert("[error]: " + data.error);
+          }
+        },
+        error: function () {
+          // alert("请求失败");
+          return false;
+        }
+      });
+    }
+
+    function logout() {
+      $.ajax({
+        type: "post",
+        url: "check_login.php",
+        data: {
+          "logout":"1"
+        },
+        dataType: "json", // 因为PHP返回数据是JSON格式，所以这里类似要用JSON
+        async: true,
+        success: function (data) {
+          login_state = data.login_state;
+          login_username = data.username;
+          login_userid = data.userid;
+          console.log(login_state, login_username, login_userid);
+          console.log("log out");
+          alert("You have been logged out.")
+          if (login_state == 1) {
+            document.getElementById("logtip").textContent = "(logged in)";
+          } else {
+            document.getElementById("logtip").textContent = "(log in first)";
+          }
+          },
+        error: function () {
+          alert("请求失败！")
+          return false;
+        }
+      });
+    }
+
+  </script>
+  <div class="page login-page">
+    <div class="top-nav w3-agiletop">
+      <div class="container">
+        <div class="navbar-header w3llogo">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+            data-target="#bs-example-navbar-collapse-1">Toggle navigation </button>
+          <h1><a href="index.html"> Easy-Time</a></h1>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <div class="w3menu navbar-left">
+            <ul class="nav navbar">
+              <li><a href="index.html" class="active">Log in </a></li>
+              <li><a href="professor.php">Professor</a></li>
+              <li><a href="Student.html">Student</a></li>
+              <li>
+                <ul class="dropdown-menu">
+                  <li><a href="icons.html">Web Icons</a></li>
+                  <li><a href="codes.html">Short Codes</a></li>
+                </ul>
+              </li>
+              <li><a href="contact.html">Reservation</a></li>
+            </ul>
+          </div>
+          <div>
+            <br>
+              <button id="logout" class="btn btn-primary" name="logout-submit" onclick="logout()">Log out</button><b id="logtip">(log in first)</b>
+          </div>
+          <div class="w3ls-bnr-icons social-icon navbar-right">
+            <a href="#" class="social-button twitter"></a>
+            <a href="#" class="social-button facebook"></a>
+            <a href="#" class="social-button google"></a>
+            <a href="#" class="social-button dribbble"></a>
+          </div>
+          <div class="clearfix"> </div>
+          <div class="banner-w3text w3layouts col-md-12">
+            <h2>Welcome To Easy-Time</h2>
+
+          </div>
+          <div class="info d-flex align-items-center">
+            <div class="content">
+              <div class="logo"> </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="container d-flex align-items-center">
+          <div class="form-holder has-shadow">
+            <!-- Form Panel    -->
+            <div class="col-lg-6 bg-white">
+              <div class="form d-flex align-items-center">
+                <form class="form-validate col-md-12">
+                  <div class="form-group">
+                    <input id="login-username" type="text" name="loginUsername" required
+                      data-msg="Please enter your username" class="input-material">
+                    <label for="login-username" class="label-material">User Name</label>
+                  </div>
+                  <div class="form-group">
+                    <input id="login-id" type="text" name="loginid" required data-msg="Please enter your ID"
+                      class="input-material">
+                    <label for="login-id" class="label-material">User ID</label>
+                  </div>
+                  <button id="login" class="btn btn-primary" name="login-submit" onclick="return before_login()">Log in</button>
+                  <br>
+                  <font size="3">Do not have an account? </font><a href="register.html" style="size:3">Signup</a>
+                </form>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"> </div>
+  </div>
+  <!-- JavaScript files-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/popper.js/umd/popper.min.js"> </script>
+  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="vendor/jquery.cookie/jquery.cookie.js"> </script>
+  <script src="vendor/chart.js/Chart.min.js"></script>
+  <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
+  <!-- Main File-->
+  <script src="js/front.js"></script>
+</body>
+
+</html>
