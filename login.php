@@ -9,7 +9,7 @@
 
     $correct = 0; // 1 for true
 
-    $sql = "SELECT * FROM STUDENT WHERE StuId = '$userid' and StuName = '$username';";
+    $sql = "SELECT * FROM student WHERE StuId = '$userid' and StuName = '$username';";
     $result = mysqli_query($conn,$sql);
 
     $record_num = mysqli_num_rows($result);

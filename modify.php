@@ -3,7 +3,7 @@
     $StuID = $_POST['id'];
     $statelist = json_decode(stripslashes($_POST['statelist']));
 
-    $sql = "DELETE FROM STUCALENDAR WHERE StuID = '$StuID'";
+    $sql = "DELETE FROM stucalendar WHERE StuID = '$StuID'";
     $result=mysqli_query($conn,$sql);
 
     $count = 0;
@@ -15,7 +15,7 @@
             } else {
                 $state = '0';
             }
-            $sql = "INSERT INTO STUCALENDAR VALUES('$StuID','$i','$j','$state')";
+            $sql = "INSERT INTO stucalendar VALUES('$StuID','$i','$j','$state')";
             $result=mysqli_query($conn,$sql);
             $count++;
         }

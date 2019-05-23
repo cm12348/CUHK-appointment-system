@@ -15,7 +15,7 @@
     // $json= json_encode($json_array);  //将数组转换成json对象
     // echo json_encode($statelist[0]);
 
-    $sql = "SELECT FROM STUDENT WHERE StuID='$StuID'";
+    $sql = "SELECT FROM student WHERE StuID='$StuID'";
     $result = mysqli_query($conn, $sql);
     // //2.定义sql语句
     // $sql='select * from professor';
@@ -30,7 +30,7 @@
     //     }
     //     // var_dump($arr);
 
-    $sql = "INSERT INTO STUDENT VALUES('$StuID','$StuName','$StuMail','$SchoolID')";
+    $sql = "INSERT INTO student VALUES('$StuID','$StuName','$StuMail','$SchoolID')";
     $result=mysqli_query($conn,$sql);
     $count = 0;
     for ($j = 0; $j < 12; $j++) {   //hour block
@@ -40,7 +40,7 @@
             } else {
                 $state = '0';
             }
-            $sql = "INSERT INTO STUCALENDAR VALUES('$StuID','$i','$j','$state')";
+            $sql = "INSERT INTO stucalendar VALUES('$StuID','$i','$j','$state')";
             $result=mysqli_query($conn,$sql);
             $count++;
         }

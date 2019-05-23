@@ -1,7 +1,7 @@
 <?php
-    $host = '127.0.0.1';
-    $user = 'root';
-    $password = '';
+    $host = 'localhost';
+    $user = 'zlx';
+    $password = 'Zlx@8687';
     $database = 'appointment';
     $end = '3306';
 

@@ -10,7 +10,7 @@
     $prof_record_num = 0;
     $stu_record_num = 0;
 
-    $sql = "SELECT weekday, hourblocknum, hourblockstate FROM PROFCALENDAR pc, professor p WHERE p.ProfName= '$professorname' and p.ProfID = pc.ProfID ORDER BY hourblocknum, weekday";
+    $sql = "SELECT weekday, hourblocknum, hourblockstate FROM profcalendar pc, professor p WHERE p.ProfName= '$professorname' and p.ProfID = pc.ProfID ORDER BY hourblocknum, weekday";
     $result = mysqli_query($conn,$sql);
 
     
@@ -22,7 +22,7 @@
         }
     }
 
-    $sql = "SELECT weekday, hourblocknum, hourblockstate FROM STUCALENDAR WHERE StuId= '$studentId' ORDER BY hourblocknum, weekday;";
+    $sql = "SELECT weekday, hourblocknum, hourblockstate FROM stucalendar WHERE StuId= '$studentId' ORDER BY hourblocknum, weekday;";
     $result = mysqli_query($conn,$sql);
 
     $stu_record_num = mysqli_num_rows($result);
