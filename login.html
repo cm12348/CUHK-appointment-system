@@ -130,35 +130,6 @@
       });
     }
 
-    function logout() {
-      $.ajax({
-        type: "post",
-        url: "check_login.php",
-        data: {
-          "logout":"1"
-        },
-        dataType: "json", // 因为PHP返回数据是JSON格式，所以这里类似要用JSON
-        async: true,
-        success: function (data) {
-          login_state = data.login_state;
-          login_username = data.username;
-          login_userid = data.userid;
-          console.log(login_state, login_username, login_userid);
-          console.log("log out");
-          alert("You have been logged out.")
-          if (login_state == 1) {
-            document.getElementById("logtip").textContent = "(logged in)";
-          } else {
-            document.getElementById("logtip").textContent = "(log in first)";
-          }
-          },
-        error: function () {
-          alert("请求失败！")
-          return false;
-        }
-      });
-    }
-
   </script>
   <div class="page login-page">
     <div class="top-nav w3-agiletop">
@@ -182,11 +153,10 @@
                 </ul>
               </li>
               <li><a href="contact.html">Reservation</a></li>
+              <li><br>
+                <button id="logout" class="btn btn-primary" name="logout-submit" onclick="logout()">Log out</button><b id="logtip">(log in first)</b>
+              </li>
             </ul>
-          </div>
-          <div>
-            <br>
-              <button id="logout" class="btn btn-primary" name="logout-submit" onclick="logout()">Log out</button><b id="logtip">(log in first)</b>
           </div>
           <div class="w3ls-bnr-icons social-icon navbar-right">
             <a href="#" class="social-button twitter"></a>
@@ -228,9 +198,6 @@
                 </form>
               </div>
             </div>
-
-
-
           </div>
         </div>
       </div>
@@ -247,6 +214,7 @@
   <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
   <!-- Main File-->
   <script src="js/front.js"></script>
+  <script src="js/logout.js"></script>
 </body>
 
 </html>
