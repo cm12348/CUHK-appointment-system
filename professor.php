@@ -1,7 +1,7 @@
 ﻿<?php
-    $host = '127.0.0.1';
-    $username = 'root';
-    $password = '';
+    $host = 'localhost';
+    $username = 'zlx';
+    $password = 'Zlx@8687';
     $dbname = 'appointment';
     $end = '3306';
     $charset='utf8';
@@ -10,13 +10,13 @@ $db = db::getInstance(array('dsn'=>"mysql:dbname=$dbname;host=$host","username"=
 $keyword = isset($_GET['keyword'])?$_GET['keyword']:'';
 $shuzi = 0;
 $keywords = "";
-$sql = "SELECT * FROM PROFESSOR where PROFNAME like '%$keyword%'";
+$sql = "SELECT * FROM professor where PROFNAME like '%$keyword%'";
 $len = strlen($keyword)/3;
 if ($len==1){
     $data = $db->getAll($sql);
 }
 if ($len>1){
-    $sql = "SELECT * FROM PROFESSOR where (PROFNAME like '%$keyword%'";
+    $sql = "SELECT * FROM professor where (PROFNAME like '%$keyword%'";
     while ($shuzi+1 <= $len){
         $keywords = mb_substr($keyword,$shuzi,1,'utf-8');
         $sql .= " or PROFNAME like '%$keywords%'";
@@ -26,11 +26,13 @@ if ($len>1){
     $data = $db->getAll($sql);
 }
 
-
+$Chinese2PingYin = array('徐杨生' => 'xuyangsheng',
+                        '蔡玮' => 'caiwei',
+                        '王亚坤' => 'wangyakun' );
 
 // if($keyword){
 
-//     $data = $db->getAll("SELECT * FROM PROFESSOR where PROFNAME like '%$keyword%'");
+//     $data = $db->getAll("SELECT * FROM professor where PROFNAME like '%$keyword%'");
 // }
 
 
@@ -222,7 +224,7 @@ if ($len>1){
                     <tr>
                         <td width="500" align="center"><?php 
                                 $str = $v['ProfName'];
-                                echo "<a href='".$str.".html'> $str"
+                                echo "<a href='".$Chinese2PingYin[$str].".html'> $str"
                             ?></a></td>
                         <td width="500"><?php echo $v['Office']?></td>
                         <td width="500"><?php
